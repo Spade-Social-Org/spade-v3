@@ -20,14 +20,22 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
   final double _iconSize = 30;
   bool _isSecondChildVisible = false;
   bool _isAnalogDragged = false;
-  double _containerHeight = 0.0;
+  int _selectedContainerIndex = -1;
+  
+  void onConatainerTap(int index){
+    setState(() {
+      _selectedContainerIndex = index;
+    });
+  }
 
+ 
 
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
       elevation: 0,
       child: SizedBox(
+       
         height: widget.selectedPageIndex == 2 ? 100 : 70,
         child: Stack(
           children: [
@@ -133,11 +141,14 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                   children: [
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          color: Colors.black,
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Positioned(
+                          bottom: 10,
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -145,14 +156,16 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                       padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey.withOpacity(0.2),
+                      
+                    color: Colors.grey.withOpacity(0.2),
                       ),
-                      height: 90,
+                      height: 100,
                       width: 130,
                     ),
+                   
                     if (!_isAnalogDragged)
                       Positioned(
-                        bottom: 25,
+                        bottom: 30,
                         left: 50,
                         right: 50,
                         child: Draggable<bool>(
@@ -170,26 +183,26 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                           onDragStarted: () {
                             setState(() {
                               _isAnalogDragged = true;
-                              _containerHeight =
-                                  0.0; // Reset the container height
+                              // _containerHeight =
+                              //     0.0; // Reset the container height
                             });
                           },
                           onDragEnd: (_) {
                             setState(() {
                               _isAnalogDragged = false;
-                              _containerHeight =
-                                  90.0; // Set the final container height
+                              // _containerHeight =
+                              //     90.0; // Set the final container height
                             });
                           },
                           onDraggableCanceled: (_, __) {
                             setState(() {
                               _isAnalogDragged = false;
-                              _containerHeight =
-                                  90.0; // Set the final container height
+                              // _containerHeight =
+                              //     90.0; // Set the final container height
                             });
                           },
                           child: const Positioned(
-                            bottom: 25,
+                            bottom: 15,
                             left: 50,
                             right: 50,
                             child: CircleAvatar(
@@ -203,29 +216,21 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                           ),
                         ),
                       ),
+           
                     Positioned(
                       left: 10,
                       top: 10,
                       child: Transform.rotate(
                         angle: -0.5,
-                        child: AnimatedContainer(
-                          height: 25,
-                          width: 20,
-                          color: Color.fromARGB(255, 14, 13, 13),
-                          duration: const Duration(milliseconds: 200),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 10,
-                      top: 10,
-                      child: Transform.rotate(
-                        angle: -0.5,
-                        child: AnimatedContainer(
-                          height: 25,
-                          width: 20,
-                          color: const Color.fromARGB(255, 248, 29, 14),
-                          duration: const Duration(milliseconds: 200),
+                        child: GestureDetector(
+                          onTap: ()=> onConatainerTap(0),
+                          
+                          child: AnimatedContainer(
+                            height: _selectedContainerIndex == 0 ? 35 : 25,
+                                width: _selectedContainerIndex == 0 ? 25 : 20,
+                            color: const Color.fromARGB(255, 248, 29, 14),
+                            duration: const Duration(milliseconds: 200),
+                          ),
                         ),
                       ),
                     ),
@@ -234,10 +239,17 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                       top: 2,
                       child: Transform.rotate(
                         angle: -0.2,
-                        child: Container(
-                          height: 25,
-                          width: 20,
-                          color: const Color.fromARGB(255, 1, 75, 18),
+                        child: GestureDetector(
+                          onTap: ()=> onConatainerTap(1),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right:5.0,left: 1.0),
+                            child: AnimatedContainer(
+                              height: _selectedContainerIndex == 1 ? 35 : 25,
+                                width: _selectedContainerIndex == 1 ? 25 : 20,
+                              color: const Color.fromARGB(255, 1, 75, 18),
+                              duration: const Duration(milliseconds: 200),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -245,10 +257,17 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                       left: 70,
                       child: Transform.rotate(
                         angle: 0.2,
-                        child: Container(
-                          height: 25,
-                          width: 20,
-                          color: const Color.fromARGB(255, 219, 204, 3),
+                        child: GestureDetector(
+                          onTap: ()=> onConatainerTap(2),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right:5.0,left: 2.0),
+                            child: AnimatedContainer(
+                              height: _selectedContainerIndex == 2 ? 35 : 25,
+                                width: _selectedContainerIndex == 2 ? 25 : 20,
+                              color: const Color.fromARGB(255, 219, 204, 3),
+                               duration: const Duration(milliseconds: 200),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -257,13 +276,21 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
                       top: 10,
                       child: Transform.rotate(
                         angle: 0.5,
-                        child: Container(
-                          height: 25,
-                          width: 20,
-                          color: Colors.grey,
+                        child: GestureDetector(
+                          onTap: ()=> onConatainerTap(3),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: AnimatedContainer(
+                              height: _selectedContainerIndex == 3 ? 35 : 25,
+                                width: _selectedContainerIndex == 3 ? 25 : 20,
+                              color: Colors.grey,
+                               duration: const Duration(milliseconds: 200),
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                 
                   ],
                 ),
               ),
@@ -273,37 +300,6 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -329,14 +325,22 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //   final double _iconSize = 30;
 //   bool _isSecondChildVisible = false;
 //   bool _isAnalogDragged = false;
-//   double _containerHeight = 0.0;
+//   int _selectedContainerIndex = -1;
+  
+//   void onConatainerTap(int index){
+//     setState(() {
+//       _selectedContainerIndex = index;
+//     });
+//   }
 
+ 
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return BottomAppBar(
 //       elevation: 0,
 //       child: SizedBox(
+       
 //         height: widget.selectedPageIndex == 2 ? 100 : 70,
 //         child: Stack(
 //           children: [
@@ -442,11 +446,14 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                   children: [
 //                     Center(
 //                       child: Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Container(
-//                           height: 50,
-//                           width: 50,
-//                           color: Colors.black,
+//                         padding: const EdgeInsets.only(top: 20),
+//                         child: Positioned(
+//                           bottom: 10,
+//                           child: Container(
+//                             height: 50,
+//                             width: 50,
+//                             color: Colors.black,
+//                           ),
 //                         ),
 //                       ),
 //                     ),
@@ -454,14 +461,16 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                       padding: const EdgeInsets.all(30),
 //                       decoration: BoxDecoration(
 //                         borderRadius: BorderRadius.circular(50),
-//                         color: Colors.grey.withOpacity(0.2),
+                      
+//                     color: Colors.grey.withOpacity(0.2),
 //                       ),
-//                       height: 90,
+//                       height: 100,
 //                       width: 130,
 //                     ),
+                   
 //                     if (!_isAnalogDragged)
 //                       Positioned(
-//                         bottom: 25,
+//                         bottom: 30,
 //                         left: 50,
 //                         right: 50,
 //                         child: Draggable<bool>(
@@ -479,26 +488,26 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                           onDragStarted: () {
 //                             setState(() {
 //                               _isAnalogDragged = true;
-//                               _containerHeight =
-//                                   0.0; // Reset the container height
+//                               // _containerHeight =
+//                               //     0.0; // Reset the container height
 //                             });
 //                           },
 //                           onDragEnd: (_) {
 //                             setState(() {
 //                               _isAnalogDragged = false;
-//                               _containerHeight =
-//                                   90.0; // Set the final container height
+//                               // _containerHeight =
+//                               //     90.0; // Set the final container height
 //                             });
 //                           },
 //                           onDraggableCanceled: (_, __) {
 //                             setState(() {
 //                               _isAnalogDragged = false;
-//                               _containerHeight =
-//                                   90.0; // Set the final container height
+//                               // _containerHeight =
+//                               //     90.0; // Set the final container height
 //                             });
 //                           },
 //                           child: const Positioned(
-//                             bottom: 25,
+//                             bottom: 15,
 //                             left: 50,
 //                             right: 50,
 //                             child: CircleAvatar(
@@ -512,29 +521,21 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                           ),
 //                         ),
 //                       ),
+           
 //                     Positioned(
 //                       left: 10,
 //                       top: 10,
 //                       child: Transform.rotate(
 //                         angle: -0.5,
-//                         child: AnimatedContainer(
-//                           height: 25,
-//                           width: 20,
-//                           color: Color.fromARGB(255, 14, 13, 13),
-//                           duration: const Duration(milliseconds: 200),
-//                         ),
-//                       ),
-//                     ),
-//                     Positioned(
-//                       left: 10,
-//                       top: 10,
-//                       child: Transform.rotate(
-//                         angle: -0.5,
-//                         child: AnimatedContainer(
-//                           height: 25,
-//                           width: 20,
-//                           color: const Color.fromARGB(255, 248, 29, 14),
-//                           duration: const Duration(milliseconds: 200),
+//                         child: GestureDetector(
+//                           onTap: ()=> onConatainerTap(0),
+                          
+//                           child: AnimatedContainer(
+//                             height: _selectedContainerIndex == 0 ? 35 : 25,
+//                                 width: _selectedContainerIndex == 0 ? 25 : 20,
+//                             color: const Color.fromARGB(255, 248, 29, 14),
+//                             duration: const Duration(milliseconds: 200),
+//                           ),
 //                         ),
 //                       ),
 //                     ),
@@ -543,10 +544,17 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                       top: 2,
 //                       child: Transform.rotate(
 //                         angle: -0.2,
-//                         child: Container(
-//                           height: 25,
-//                           width: 20,
-//                           color: const Color.fromARGB(255, 1, 75, 18),
+//                         child: GestureDetector(
+//                           onTap: ()=> onConatainerTap(1),
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(right:5.0,left: 1.0),
+//                             child: AnimatedContainer(
+//                               height: _selectedContainerIndex == 1 ? 35 : 25,
+//                                 width: _selectedContainerIndex == 1 ? 25 : 20,
+//                               color: const Color.fromARGB(255, 1, 75, 18),
+//                               duration: const Duration(milliseconds: 200),
+//                             ),
+//                           ),
 //                         ),
 //                       ),
 //                     ),
@@ -554,10 +562,17 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                       left: 70,
 //                       child: Transform.rotate(
 //                         angle: 0.2,
-//                         child: Container(
-//                           height: 25,
-//                           width: 20,
-//                           color: const Color.fromARGB(255, 219, 204, 3),
+//                         child: GestureDetector(
+//                           onTap: ()=> onConatainerTap(2),
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(right:5.0,left: 2.0),
+//                             child: AnimatedContainer(
+//                               height: _selectedContainerIndex == 2 ? 35 : 25,
+//                                 width: _selectedContainerIndex == 2 ? 25 : 20,
+//                               color: const Color.fromARGB(255, 219, 204, 3),
+//                                duration: const Duration(milliseconds: 200),
+//                             ),
+//                           ),
 //                         ),
 //                       ),
 //                     ),
@@ -566,13 +581,21 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //                       top: 10,
 //                       child: Transform.rotate(
 //                         angle: 0.5,
-//                         child: Container(
-//                           height: 25,
-//                           width: 20,
-//                           color: Colors.grey,
+//                         child: GestureDetector(
+//                           onTap: ()=> onConatainerTap(3),
+//                           child: Padding(
+//                             padding: const EdgeInsets.all(5.0),
+//                             child: AnimatedContainer(
+//                               height: _selectedContainerIndex == 3 ? 35 : 25,
+//                                 width: _selectedContainerIndex == 3 ? 25 : 20,
+//                               color: Colors.grey,
+//                                duration: const Duration(milliseconds: 200),
+//                             ),
+//                           ),
 //                         ),
 //                       ),
 //                     ),
+                 
 //                   ],
 //                 ),
 //               ),
@@ -582,6 +605,5 @@ class _CustomerNavigationBarState extends State<CustomerNavigationBar> {
 //     );
 //   }
 // }
-
 
 
