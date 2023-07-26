@@ -7,7 +7,7 @@ import 'package:spade/screen/onboarding%20screen/Login_or_signup_screen.dart';
 void main() {
   runApp(const MyApp());
 }
-
+///check
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
